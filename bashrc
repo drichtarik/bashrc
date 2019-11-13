@@ -1,12 +1,12 @@
 # Bash configuration
-# Uses tabstop=4; shiftwidth=4 tabs; foldmarker={{{,}}};
+# legacy repo https://github.com/jtulak/bashrc
 
 platform='unknown'
 unamestr=`uname`
 if [[ "$unamestr" == 'Linux' ]]; then
-   platform='linux'
+	platform='linux'
 elif [[ "$unamestr" == 'Darwin' ]]; then
-   platform='osx'
+	platform='osx'
 fi
 
 # Source global definitions

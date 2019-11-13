@@ -1,8 +1,7 @@
-# Uses tabstop=4; shiftwidth=4 tabs; foldmarker={{{,}}};
 # legacy repo http://github.com/demure/dotfiles & https://github.com/jtulak/bashrc
 
-## This Changes The PS1
-export PROMPT_COMMAND=__prompt_command      # Func to gen PS1 after CMDs
+# This Changes The PS1
+export PROMPT_COMMAND=__prompt_command	# Func to gen PS1 after CMDs
 
 wd="$(dirname "$BASH_SOURCE")"
 source "$wd/../colors"
@@ -13,23 +12,22 @@ if ! which "$STAT" &>/dev/null; then
 fi
 
 function __prompt_command() {
-	local EXIT="$?"							# This needs to be first
+	local EXIT="$?"	# This needs to be first
 	PS1=""
 
 	if [ ${UID} -eq "0" ];then
-		PS1+="${Red}\h \W ->${Color_off} "       ## Set prompt for root
+		PS1+="${Red}\h \W ->${Color_off} "	# Set prompt for root
 	else
 		if [ ${EXIT} != 0 ]; then
-			## can add `kill -l $?` to test to filter backgrounded
-			PS1+="${Red}${EXIT}${Color_off}"     ## Add exit code, if non 0
+			PS1+="${Red}${EXIT}${Color_off}"	# Add exit code, if non 0
 		fi
 
-		### Machine Test
+		### Machine Test ###
 		if [ ${HOSTNAME} == 'drichtar-mac' ]; then
 			local PSCol="$Yellow"
 		elif [ ${HOSTNAME} == 'drichtar-fedora' ]; then
 			local PSCol="$Blue"
-		## Un-designated catch-all
+		# Un-designated catch-all
 		else
 			local PSCol="${Cyan}"
 			MISSING_ITEMS+="machine-prompt, "
@@ -37,7 +35,7 @@ function __prompt_command() {
 
 		PS1+="${PSCol}\W${Color_off}"
 
-		### Add Git Status ### {{{
+		### Add Git Status ###
 		## author https://github.com/demure/dotfiles/blob/master/subbash/prompt
 		## Inspired by http://www.terminally-incoherent.com/blog/2013/01/14/whats-in-your-bash-prompt/
 		if [[ $(command -v git) ]]; then
@@ -45,7 +43,7 @@ function __prompt_command() {
 				local GStat="$(git status --porcelain -b 2>/dev/null | tr '\n' ':')"
 
 				if [ "$GStat" ]; then
-					### Fetch Time Check ### {{{
+					### Fetch Time Check ###
 					local LAST=$(stat -c %Y $(git rev-parse --git-dir 2>/dev/null)/FETCH_HEAD 2>/dev/null)
 					if [ "${LAST}" ]; then
 						local TIME=$(echo $(date +"%s") - ${LAST} | bc)
@@ -57,9 +55,9 @@ function __prompt_command() {
 							local GStat="$(git status --porcelain -b 2>/dev/null | tr '\n' ':')"
 						fi
 					fi
-					### End Fetch Check ### }}}
+					### End Fetch Check ###
 
-					### Test For Changes ### {{{
+					### Test For Changes ###
 					## Change this to test for 'ahead' or 'behind'!
 					local GChanges="$(echo ${GStat} | tr ':' '\n' | grep -v "^$" | grep -v "^\#\#" | wc -l | tr -d ' ')"
 					if [ "$GChanges" == "0" ]; then
@@ -67,9 +65,9 @@ function __prompt_command() {
 					else
 						local GitCol=$Red
 					fi
-					### End Test Changes ### }}}
+					### End Test Changes ###
 
-					### Find Branch ### {{{
+					### Find Branch ###
 					local GBra="$(echo ${GStat} | \
 							tr ':' '\n' | \
 							grep "^##" | \
@@ -83,13 +81,12 @@ function __prompt_command() {
 					else
 						local GBra="ERROR"			# It could happen supposedly?
 					fi
-					### End Branch ### }}}
+					### End Branch ###
 
 					PS1+=" ${GitCol}[$GBra]${Color_off}"	# Add result to prompt
 
-					### Find Commit Status ### {{{
+					### Find Commit Status ###
 					## Test Modified and Untracked for "0"
-					# local GDel="$(echo ${GStat} | tr ':' '\n' | grep -c "^[ MARC]D")"
 
 					local GAhe="$(echo ${GStat} | tr ':' '\n' | grep "^##" | grep -o "ahead [0-9]\{1,\}" | grep -o "[0-9]\{1,\}")"
 					if [ "$GAhe" ]; then
@@ -111,7 +108,7 @@ function __prompt_command() {
 					if [ "$GUnt" -gt "0" ]; then
 						PS1+="${Yellow}?${Color_off}${GUnt}"	# Untracked
 					fi
-					### End Commit Status ### }}}
+					### End Commit Status ###
 				fi
 			else
 				PS1+=" ${Red}(sshfs)${Color_off}${GBeh}" # sshfs
@@ -119,7 +116,7 @@ function __prompt_command() {
 		  else
 			MISSING_ITEMS+="git-prompt, "
 		fi
-		### End Git Status ### }}}
+		### End Git Status ###
 
 		PS1+=" ${PSCol}-> ${Color_off}"
 	fi

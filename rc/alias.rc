@@ -8,7 +8,6 @@ alias gd="cd /Users/drichtar/go/src"
 alias gr='git remote -v'
 alias gb='git branch'
 alias gs="git status"
-#alias gl="git log --pretty=oneline --graph --color --decorate --all"
 alias gl="git log --pretty=format:'%h%d %s [%an]' --decorate --all --graph --color=always| ~/.bash/git-log-color.awk | less -RXFS"
 
 alias ssh-agent-autoload='eval "$(ssh-agent -s)" && ssh-add'

@@ -1,5 +1,5 @@
 # Bash configuration
-# Uses tabstop=4; shiftwidth=4 tabs; foldmarker={{{,}}};
+# legacy repo https://github.com/jtulak/bashrc
 
 set -o notify
 

@@ -1,7 +1,6 @@
 # Bash configuration
 # compiled from /etc/DIR_COLORS and some other files
-# Uses tabstop=4; shiftwidth=4 tabs; foldmarker={{{,}}};
-# vim:set syntax=sh:
+# legacy repo https://github.com/jtulak/bashrc
 
 # Reset
 Color_off='\[\e[0m\]'       # Text Reset
