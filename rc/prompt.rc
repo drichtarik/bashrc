@@ -1,51 +1,41 @@
-# Bash configuration
-# Jan Tulak <jan@tulak.me>
-# vim:set syntax=sh foldmethod=marker:
+# Uses tabstop=4; shiftwidth=4 tabs; foldmarker={{{,}}};
+# legacy repo http://github.com/demure/dotfiles & https://github.com/jtulak/bashrc
 
-# inspired by https://github.com/demure/dotfiles/blob/master/subbash/prompt
+## This Changes The PS1
+export PROMPT_COMMAND=__prompt_command      # Func to gen PS1 after CMDs
 
 wd="$(dirname "$BASH_SOURCE")"
 source "$wd/../colors"
 
-# Define the stat binary - linux/osx compatiblity attempt
 STAT="gstat"
 if ! which "$STAT" &>/dev/null; then
 	STAT="stat"
 fi
 
-export PROMPT_COMMAND=__prompt_command	# Func to gen PS1 after CMDs
-
-### Prompt Command ### {{{
 function __prompt_command() {
-	local EXIT="$?"	# This needs to be first
+	local EXIT="$?"							# This needs to be first
 	PS1=""
 
-	# Root should have its own prompt, except in docker containers.
-	# There we prefer the more informative user prompt.
-	if [ $UID -eq "0" -a ! -f /.dockerenv ];then
-		PS1+="${Red}\h \W ->${Color_off} "		# Set prompt for root
+	if [ ${UID} -eq "0" ];then
+		PS1+="${Red}\h \W ->${Color_off} "       ## Set prompt for root
 	else
-		PS1+="${BWhite}[${Color_off}"
-		if [ $EXIT != 0 ]; then
+		if [ ${EXIT} != 0 ]; then
 			## can add `kill -l $?` to test to filter backgrounded
-			PS1+="${Red}${EXIT}${Color_off} " # Add exit code, if non 0
+			PS1+="${Red}${EXIT}${Color_off}"     ## Add exit code, if non 0
 		fi
-		### Machine Test ### {{{
-		if [ $HOSTNAME == 'honza-mbp' ]; then
-			local PSCol="$BYellow"
-		elif [ $HOSTNAME == 'jtulak-arch' ]; then
-			local PSCol="$BPurple"
-		elif [ $HOSTNAME == 'home2' ]; then
-			local PSCol="$BBlue"
-		elif [[ $HOSTNAME == 'rpi' ]]; then
-			local PSCol="$BGreen"
-		else
-			local PSCol="$BWhite"
-		fi
-		### Machine Test ### }}}
 
-		PS1+="${PSCol}\u@\h"
-		PS1+=" ${BWhite}\W${Color_off}"
+		### Machine Test
+		if [ ${HOSTNAME} == 'drichtar-mac' ]; then
+			local PSCol="$Yellow"
+		elif [ ${HOSTNAME} == 'drichtar-fedora' ]; then
+			local PSCol="$Blue"
+		## Un-designated catch-all
+		else
+			local PSCol="${Cyan}"
+			MISSING_ITEMS+="machine-prompt, "
+		fi
+
+		PS1+="${PSCol}\W${Color_off}"
 
 		### Add Git Status ### {{{
 		## author https://github.com/demure/dotfiles/blob/master/subbash/prompt
@@ -81,11 +71,11 @@ function __prompt_command() {
 
 					### Find Branch ### {{{
 					local GBra="$(echo ${GStat} | \
-						    tr ':' '\n' | \
-						    grep "^##" | \
-						    cut -c4- | \
-						    sed "s/\.\.\..*$//" | \
-						    grep -o "^[-_a-zA-Z0-9.]\{1,\}")"
+							tr ':' '\n' | \
+							grep "^##" | \
+							cut -c4- | \
+							sed "s/\.\.\..*$//" | \
+							grep -o "^[-_a-zA-Z0-9.]\{1,\}")"
 					if [ "$GBra" ]; then
 						if [ "$GBra" == "master" ]; then
 							local GBra="M"			# Because why waste space
@@ -131,8 +121,6 @@ function __prompt_command() {
 		fi
 		### End Git Status ### }}}
 
-		PS1+="${BWhite}]\$${Color_off} "
+		PS1+=" ${PSCol}-> ${Color_off}"
 	fi
 }
-### Prompt Command ### }}}
-

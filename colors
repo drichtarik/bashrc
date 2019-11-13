@@ -1,11 +1,7 @@
 # Bash configuration
-# Jan Tulak <jan@tulak.me>, compiled from /etc/DIR_COLORS and some other files
+# compiled from /etc/DIR_COLORS and some other files
 # Uses tabstop=4; shiftwidth=4 tabs; foldmarker={{{,}}};
 # vim:set syntax=sh:
-
-
-
-
 
 # Reset
 Color_off='\[\e[0m\]'       # Text Reset
@@ -112,7 +108,7 @@ On_IWhite='\[\e[0;107m\]'   # White
 
 # Below are the color init strings for the basic file types. A color init
 # string consists of one or more of the following numeric codes:
-# Attribute codes: 
+# Attribute codes:
 # 00=none 01=bold 04=underscore 05=blink 07=reverse 08=concealed
 # Text color codes:
 # 30=black 31=red 32=green 33=yellow 34=blue 35=magenta 36=cyan 37=white
@@ -128,7 +124,7 @@ On_IWhite='\[\e[0;107m\]'   # White
 #CHR 40;33;01 	# character device driver
 #
 ## This is for files with execute permission:
-#EXEC 01;32 
+#EXEC 01;32
 #
 ## List any file extensions like '.gz' or '.tar' that you would like ls
 ## to colorize below. Put the extension, a space, and the color init string.

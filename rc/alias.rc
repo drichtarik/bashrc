@@ -1,73 +1,26 @@
 # Bash configuration
-# Jan Tulak <jan@tulak.me>
-# Uses tabstop=4; shiftwidth=4 tabs; foldmarker={{{,}}};
-# vim:set syntax=sh:
 
-if [[ $platform == "linux" ]]; then
-  alias ls="ls --color=auto"
-  alias mvim="gvim"
-  alias dd="dd status=progress"
-  # hack for screen when sudo su-ing
-  function screen() {
-    /usr/bin/script -q -c "/usr/bin/screen ${*}" /dev/null
-  }
-elif [[ $platform == "osx" ]]; then
-  alias ls="ls"
-  alias gvim="mvim"
-  function brew_find_pkg {
-    file_to_search="$@"
-    list_of_brew_pkgs=$(brew list)
+alias ll='ls -lG'
+alias l="ls -lah"
+alias gd="cd /Users/drichtar/go/src"
 
-    for package in $list_of_brew_pkgs; do
-        brew ls $package | grep -E -q "/${file_to_search}$"
-        if [ $? -eq 0 ]; then
-            echo $package
-            break
-        fi
-    done
-  }
-fi
-
-alias kinit="kinit jtulak@REDHAT.COM"
-alias ll="ls -lah"
-alias rm="rm -i"
-alias cp="cp -i"
-alias l="ls -ail"
-alias cl="clear"
-alias ga="git add"
-alias gu="git add -u"
-alias gc="git commit --signoff"
-alias gch="git checkout"
-alias gf="git fetch"
+# git setup
+alias gr='git remote -v'
+alias gb='git branch'
 alias gs="git status"
 #alias gl="git log --pretty=oneline --graph --color --decorate --all"
 alias gl="git log --pretty=format:'%h%d %s [%an]' --decorate --all --graph --color=always| ~/.bash/git-log-color.awk | less -RXFS"
-alias gp="git push"
-alias gr="git rebase"
-alias reboot="shutdown -r now"
+
 alias ssh-agent-autoload='eval "$(ssh-agent -s)" && ssh-add'
 
 alias vim="vim -p" # open with tabs
 
 alias cvs="cvs -z3"
 
-# Docker aliases
-# ------------
-# Use single ' to avoid expansion at the time of sourcing and deffer it 
-# for runtime. Also, do not include this command when already in the container
-if [ ! -f /.dockerenv ]; then
-	alias fedora='docker run --rm -ti -v "$(pwd)":/workdir -h fedock jtulak/fedock /bin/bash'
-	alias fedora-pkg='docker run --rm -ti -v ~/redhat/fedora-packages/pkgs:/pkgs -v ~/redhat/fedora-packages/confs:/confs -h fedora-pkg jtulak/fedora-pkg /bin/bash'
-fi
+alias brewu='brew update && brew upgrade && brew cleanup'
+alias mvnset="cd /usr/local/Cellar/maven/3.6.2/libexec/conf"
 
-# Attach to a tmux session. If it doesn't exist, create a new one.
-function ta() {
-	name=$1
-	tmux a -t $name 2>/dev/null || tmux new -s $name
+function mvnrepo {
+  cd
+  cd .m2/
 }
-
-function lsdir() {
-	du -h --max-depth=1 $1 |sort -h
-}
-
-

@@ -1,13 +1,5 @@
 # Bash configuration
-# Jan Tulak <jan@tulak.me>
 # Uses tabstop=4; shiftwidth=4 tabs; foldmarker={{{,}}};
-# vim:set syntax=sh:
-
-
-# Only for interactive shells
-#if [ -z "$PS1" ]; then
-#   exit
-#fi
 
 platform='unknown'
 unamestr=`uname`
@@ -45,7 +37,11 @@ if [[ $platform == "osx" ]]; then
 fi
 
 # source git autocompletion
-source ~/.bash/git-completion.bash
+source /usr/local/etc/bash_completion.d/git-completion.bash
+
+#source oc autocompletion
+source $(brew --prefix)/etc/bash_completion
+. <(oc completion bash)
 
 # History on partial command
 ## arrow up

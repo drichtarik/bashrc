@@ -1,3 +1,9 @@
+# Original project
+Jan Ťulák -> original developer
+https://github.com/jtulak/bashrc
+
+This is my custom version of his awesome bash config
+
 # bashrc
 My customized bash shell environment.
 
