@@ -23,3 +23,7 @@ function mvnrepo {
   cd
   cd .m2/
 }
+
+function resgitk {
+  rm -rf /Users/drichtar/.config/git/gitk
+}

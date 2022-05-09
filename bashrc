@@ -42,6 +42,7 @@ source /usr/local/etc/bash_completion.d/git-completion.bash
 #source oc autocompletion
 source $(brew --prefix)/etc/bash_completion
 . <(oc completion bash)
+. <(kubectl completion bash)
 
 # History on partial command
 ## arrow up
