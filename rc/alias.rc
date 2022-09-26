@@ -1,29 +1,60 @@
 # Bash configuration
 
-alias ll='ls -lG'
-alias l="ls -lah"
-alias gd="cd /Users/drichtar/go/src"
+# git configuration
+alias gl="git log --pretty=format:'%h%d %s [%an]' --decorate --all --graph --color=always| ~/.bash/git-log-color.awk | less -RXFS"
 
-# git setup
+# git aliases
 alias gr='git remote -v'
 alias gb='git branch'
 alias gs="git status"
-alias gl="git log --pretty=format:'%h%d %s [%an]' --decorate --all --graph --color=always| ~/.bash/git-log-color.awk | less -RXFS"
 
+# various aliases
+alias ll='ls -lG'
+alias l="ls -lah"
+alias gd="cd /Users/drichtar/go/src"
+alias brewu='brew update && brew upgrade && brew cleanup'
+alias cvs="cvs -z3"
+alias vim="vim -p" # open with tabs
 alias ssh-agent-autoload='eval "$(ssh-agent -s)" && ssh-add'
 
-alias vim="vim -p" # open with tabs
-
-alias cvs="cvs -z3"
-
-alias brewu='brew update && brew upgrade && brew cleanup'
-alias mvnset="cd /usr/local/Cellar/maven/3.6.2/libexec/conf"
-
-function mvnrepo {
-  cd
-  cd .m2/
+# functions
+function mvnset {
+  MAVEN_FOLDER="/usr/local/Cellar/maven/"
+  MAVEN_VERSION=$(ls -1 /usr/local/Cellar/maven/ | head -n1);
+  cd "$MAVEN_FOLDER/$MAVEN_VERSION/libexec/conf"
+  ll
 }
 
-function resgitk {
+function mvnrepo {
+  cd /Users/drichtar/.m2
+  ll
+}
+
+function resetgitk {
   rm -rf /Users/drichtar/.config/git/gitk
+}
+
+function useJava11 {
+  export JAVA_HOME=`/usr/libexec/java_home -v 11`
+}
+
+function useJava18 {
+  export JAVA_HOME=`/usr/libexec/java_home -v 18`
+}
+
+function setupBash {
+  cd /Users/drichtar/.bash
+  code .
+}
+
+function myfuncs {
+  echo -e "These are your custom commands to use and remember:\n"
+  echo "myfuncs     - Print this list again"
+  echo "brewu       - Run brew update + brew upgrade + brew cleanup"
+  echo "useJava11   - Use Java 11"
+  echo "useJava18   - Use Java 18"
+  echo "setupBash   - Go to bash setup directory and trigger Visual Studio Code"
+  echo "mvnrepo     - Go to local Maven Repository directory and list it"
+  echo "mvnset      - Go to local Maven Settings directory and list it"
+  echo "resetgitk   - Reset local gitk (git UI) setting files by removing it"
 }

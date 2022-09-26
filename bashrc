@@ -54,3 +54,5 @@ bind '"\e[B":history-search-forward' &>/dev/null
 if [ -f ~/.bash/private.rc ]; then
 	source ~/.bash/private.rc
 fi
+
+myfuncs

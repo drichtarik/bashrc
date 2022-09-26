@@ -1,4 +1,4 @@
-# legacy repo http://github.com/demure/dotfiles & https://github.com/jtulak/bashrc
+# Original project repository http://github.com/demure/dotfiles & https://github.com/jtulak/bashrc
 
 # This Changes The PS1
 export PROMPT_COMMAND=__prompt_command	# Func to gen PS1 after CMDs

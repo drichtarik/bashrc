@@ -1,5 +1,5 @@
 # Bash configuration
-# legacy repo https://github.com/jtulak/bashrc
+# Original project repository https://github.com/jtulak/bashrc
 
 set -o notify
 
